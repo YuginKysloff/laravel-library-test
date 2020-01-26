@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\StatResource;
-use App\Journal;
+use App\Http\Requests\GetStatRequest;
 use App\Services\JournalStatService;
-use Illuminate\Http\Request;
 
 class BookStatController extends Controller
 {
@@ -29,12 +27,10 @@ class BookStatController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return array
      */
-    public function __invoke(Request $request)
+    public function __invoke(GetStatRequest $request): array
     {
-        $stat = collect();
-
-        return StatResource::collection($stat);
+			return $this->service->getPeriodStatistic($request->dateFrom, $request->dateTo);
     }
 }
