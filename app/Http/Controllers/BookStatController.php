@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GetStatRequest;
 use App\Services\JournalStatService;
+use Carbon\Carbon;
 
 class BookStatController extends Controller
 {
@@ -31,6 +32,9 @@ class BookStatController extends Controller
      */
     public function __invoke(GetStatRequest $request): array
     {
-			return $this->service->getPeriodStatistic($request->dateFrom, $request->dateTo);
+			$dateFrom = Carbon::parse($request->get('dateFrom'))->startOfDay();
+			$dateTo = Carbon::parse($request->get('dateTo'))->endOfDay();
+
+			return $this->service->getPeriodStatistic($dateFrom, $dateTo);
     }
 }
